@@ -1,6 +1,6 @@
 import type { StateCreator } from "zustand"
-import type { Bebida, Comida, Mesa } from "../types/adminTypes"
-import { getBebidasWaiter, getComidasWaiter, getMesasWaiter } from "../services/waiterService"
+import type { Bebida, Comida, Mesa, Mesero, Orden, viewOrder } from "../types/adminTypes"
+import { actualizarOrdenService, finalizarOrdenWaiterService, getBebidasWaiter, getComidasWaiter, getMesasWaiter, getMeserosWaiterService, getOrdenService, saveOrderService } from "../services/waiterService"
 
 export type WaiterSliceType = {
     //Mesas
@@ -15,6 +15,19 @@ export type WaiterSliceType = {
     bebidasWaiter:Bebida[],
     fetchBebidasWaiter: () => Promise<void>
 
+    //Ordenes
+    saveOrden: (payload:Orden) => Promise<void>
+    fetchOrdenWaiter: (id:Number) => Promise<void>
+    ordenesWaiter: viewOrder
+
+    //Meseros
+    meserosWaiter: Mesero[],
+    fetchMeserosWaiter: () => Promise<void>
+
+    actualizarOrdenWaiter: (payload: Orden, id: number) => Promise<void>
+    
+    finalizarOrdenWaiter: (id:number) => Promise<void>
+
 
 
 }
@@ -26,6 +39,10 @@ export const createWaiterSlice: StateCreator<WaiterSliceType> = (set, get) => ({
     comidasWaiter:[],
 
     bebidasWaiter:[],
+
+    ordenesWaiter:[],
+
+    meserosWaiter:[],
 
     fetchMesasWaiter: async () => {
         const mesasWaiter = await getMesasWaiter()
@@ -52,5 +69,38 @@ export const createWaiterSlice: StateCreator<WaiterSliceType> = (set, get) => ({
             bebidasWaiter: bebidasWaiter
         })
         
-    }
+    },
+
+    saveOrden: async (payload) => {
+        await saveOrderService(payload)
+    },
+
+    fetchOrdenWaiter: async (id) => {
+        const ordenesWaiter = await getOrdenService(id)
+
+        set({
+            ordenesWaiter:ordenesWaiter
+        })
+        
+    },
+
+    fetchMeserosWaiter: async () => {
+        const meserosWaiter = await getMeserosWaiterService()
+
+        set({
+            meserosWaiter:meserosWaiter
+        })
+        
+    },
+
+    actualizarOrdenWaiter: async (payload, id) => {
+        await actualizarOrdenService(payload, id)
+    },
+
+    finalizarOrdenWaiter: async (id) => {
+        await finalizarOrdenWaiterService(id)
+    },
+    
+
+    
 })

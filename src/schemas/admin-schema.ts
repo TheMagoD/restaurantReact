@@ -80,3 +80,19 @@ export const OrdenDTOSchema = z.object({
   comidas: z.array(ItemDTOSchema).optional().default([]),
   bebidas: z.array(ItemDTOSchema).optional().default([]),
 });
+
+export const ItemDTOSchemaFormValues =  z.object({
+  id: z.number().int().positive(),
+  cantidad: z.number().int().positive(),
+  nombre: z.string(),
+  precio:z.number(),
+  descripcion: z.string()
+});
+
+export const OrdenDTOSchemaFormValues = z.object({
+  mesaId: z.number().int().positive(),
+  meseroId: z.number().int().positive(),
+  comidas: z.array(ItemDTOSchemaFormValues).optional().default([]),
+  bebidas: z.array(ItemDTOSchemaFormValues).optional().default([]),
+});
+

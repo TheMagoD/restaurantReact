@@ -1,6 +1,6 @@
 import type { StateCreator } from "zustand"
-import type { Bebida, BebidaFormValues, Comida, ComidaFormValues, Mesa, MesaFormValues, Mesero, MeseroFormValues, MeseroFormValuesUpdate, PasswordMesero } from "../types/adminTypes"
-import { actualizarBebidaService, actualizarComidaService, actualizarMeseroService, deleteBebidaService, deleteComidaService, deleteMesaService, deleteMeseroService, getBebida, getBebidas, getComida, getComidas, getMesas, getMesero, getMeseros, saveBebidaService, saveComidaService, saveMesaService, saveMeseroService, updatePasswordUserService } from "../services/adminService"
+import type { Bebida, BebidaFormValues, Comida, ComidaFormValues, Mesa, MesaFormValues, Mesero, MeseroFormValues, MeseroFormValuesUpdate, Orden, PasswordMesero, viewOrder } from "../types/adminTypes"
+import { actualizarBebidaService, actualizarComidaService, actualizarMeseroService, deleteBebidaService, deleteComidaService, deleteMesaService, deleteMeseroService, getBebida, getBebidas, getComida, getComidas, getMesas, getMesero, getMeseros, getOrdenesAdmin, saveBebidaService, saveComidaService, saveMesaService, saveMeseroService, updatePasswordUserService } from "../services/adminService"
 
 export type AdminSliceType = {
 
@@ -37,6 +37,10 @@ export type AdminSliceType = {
     fetchMesas: () => Promise<void>
     saveMesa: (payload:MesaFormValues) => Promise<void>
     deleteMesa: (id: Mesa['id']) => Promise<void>
+
+    //Ordenes
+    ordenesAdmin: viewOrder
+    fetchOrdenesAdmin: () => Promise<void>
 
 
 
@@ -79,6 +83,9 @@ export const createAdminSlice:StateCreator<AdminSliceType> = (set,get) => ({
 
     ////Mesas
     mesas:[],
+
+    ////Ordenes
+    ordenesAdmin:[],
 
 
 
@@ -202,6 +209,16 @@ export const createAdminSlice:StateCreator<AdminSliceType> = (set,get) => ({
     deleteMesa: async (id) => {
         await deleteMesaService(id)
         await get().fetchMesas()
+        
+    },
+
+    //Ordenes
+    fetchOrdenesAdmin: async () => {
+        const ordenesAdmin = await getOrdenesAdmin()
+
+        set({
+            ordenesAdmin:ordenesAdmin
+        })
         
     },
 

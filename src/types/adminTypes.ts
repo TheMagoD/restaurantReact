@@ -1,5 +1,6 @@
 import type { z } from "zod";
-import { ItemDTOSchema, type BebidaAPIResponse, type ComidaAPIResponse, type ItemSchema, type ItemsSchema, type MesaAPIResponse, type MesasAPIResponse, type MeseroAPIResponse, type MeseroWithPassword, type OrdenDTOSchema } from "../schemas/admin-schema";
+import { ItemDTOSchema, ItemDTOSchemaFormValues, OrdenDTOSchemaFormValues, type BebidaAPIResponse, type ComidaAPIResponse, type ItemSchema, type ItemsSchema, type MesaAPIResponse, type MesasAPIResponse, type MeseroAPIResponse, type MeseroWithPassword, type OrdenDTOSchema } from "../schemas/admin-schema";
+import type { OrdenAPIResponse, OrdenesAPIResponse } from "../schemas/orderView-shema";
 
 export type Items = z.infer<typeof ItemsSchema>
 
@@ -33,3 +34,10 @@ export type MesaFormValues = Omit<Mesa, 'id'>;
 //Ordenes
 export type Orden = z.infer<typeof OrdenDTOSchema>
 export type itemOrder = z.infer<typeof ItemDTOSchema>
+
+export type OrderFormValues = z.infer<typeof OrdenDTOSchemaFormValues>
+export type itemOrderFormValues = z.infer<typeof ItemDTOSchemaFormValues>
+
+export type viewOrder = z.infer<typeof OrdenesAPIResponse>
+
+export type OrderUpdate = z.infer<typeof OrdenAPIResponse>

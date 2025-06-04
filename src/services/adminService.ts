@@ -1,5 +1,6 @@
 import axiosInstance from "../api/axiosInstance";
 import { BebidaAPIResponse, BebidasAPIResponse, ComidaAPIResponse, ComidasAPIResponse, MesasAPIResponse, MeseroAPIResponse, MeserosAPIResponse } from "../schemas/admin-schema";
+import { OrdenesAPIResponse } from "../schemas/orderView-shema";
 import type { Bebida, BebidaFormValues, Comida, ComidaFormValues, Mesa, MesaFormValues, Mesero, MeseroFormValues, MeseroFormValuesUpdate, PasswordMesero } from "../types/adminTypes";
 
 //Comidas
@@ -200,4 +201,19 @@ export async function deleteMesaService(id: Mesa['id']) {
   } catch (error) {
     throw error;
   }
+}
+
+
+
+//Ordenes
+export async function getOrdenesAdmin() {
+    const { data } = await axiosInstance.get('/admin/ordenes');
+    
+    const result = OrdenesAPIResponse.safeParse(data)
+
+
+    if(result.success){
+        return result.data
+    }
+
 }

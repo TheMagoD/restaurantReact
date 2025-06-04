@@ -53,6 +53,10 @@ export default function AdminPage() {
       navigate('/admin/meseros')
     }
 
+    if(id === 5){
+      navigate('/admin/ordenes')
+    }
+
   }
 
 

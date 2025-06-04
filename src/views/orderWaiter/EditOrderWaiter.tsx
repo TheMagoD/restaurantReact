@@ -1,13 +1,33 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useOrderWaiter } from '../../hooks/useOrder';
+import { useAppStore } from '../../stores/useAppStore';
 import { useEffect } from 'react';
+import { toast } from 'react-toastify';
 
-export default function AddOrderWaiterPage() {
+export default function EditOrderWaiter() {
 
     const navigate = useNavigate()
 
     const mesaParamId = useParams().id; 
     const mesaId = Number(mesaParamId)
+
+    const { fetchOrdenWaiter, ordenesWaiter, actualizarOrdenWaiter } = useAppStore()
+    
+    useEffect(() => {
+        const fetchOrden = async () => {
+            try {
+                await fetchOrdenWaiter(mesaId);
+            } catch (error) {
+                console.error('Error al obtener la orden:', error);
+            }
+        };
+
+        resetStates()
+    
+        fetchOrden();
+    }, []);
+
+    
 
 
   const {
@@ -29,13 +49,31 @@ export default function AddOrderWaiterPage() {
     aumentarCantidadBebida,
     disminuirCantidadBebida,
     eliminarBebida,
-    createNewOrder,
+    cargarOrden,
+    orderCreated,
     resetStates
   } = useOrderWaiter(mesaId, navigate)
 
+
     useEffect(() => {
-        resetStates()
-    }, [])
+        if (ordenesWaiter.length > 0) {
+            cargarOrden(ordenesWaiter[0]);
+        }
+    }, [ordenesWaiter]);
+
+  const updateOrder = () => {
+    try {
+        actualizarOrdenWaiter(orderCreated, mesaId)
+        toast.success('Orden actualizada')
+        navigate('/waiter')
+        
+    } catch (error) {
+        console.log(error)
+        
+    }
+
+
+  }
 
 
   return (
@@ -105,7 +143,7 @@ export default function AddOrderWaiterPage() {
 
 
             <div className=' '>
-                <button onClick={() => createNewOrder()} className=' rounded-lg cursor-pointer px-8 py-2 bg-orange-400 hover:bg-orange-400 text-white hover:scale-105 duration-200'>Agregar orden</button>
+                <button onClick={() => updateOrder()} className=' rounded-lg cursor-pointer px-8 py-2 bg-orange-400 hover:bg-orange-400 text-white hover:scale-105 duration-200'>Agregar orden</button>
             </div>
 
 

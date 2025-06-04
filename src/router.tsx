@@ -19,6 +19,8 @@ import AdminEditMesero from './views/meserosAdmin/AdminEditMesero'
 import MesasAdminPage from './views/mesasAdmin/MesasAdminPage'
 import AdminAddMesa from './views/mesasAdmin/AdminAddMesa'
 import AddOrderWaiterPage from './views/orderWaiter/AddOrderWaiterPage'
+import EditOrderWaiter from './views/orderWaiter/EditOrderWaiter'
+import OrdenAdminList from './views/ordenesAdmin/OrdenAdminList'
 
 export default function AppRouter() {
   return (
@@ -135,7 +137,15 @@ export default function AppRouter() {
 
                   </PrivateRoute>
                   
-                }/>     
+                }/>   
+
+                <Route path='/admin/ordenes'  element={
+                  <PrivateRoute role={"ADMIN"}>
+                    <OrdenAdminList/>
+
+                  </PrivateRoute>
+                  
+                }/>   
 
 
 
@@ -145,13 +155,21 @@ export default function AppRouter() {
 
 
 
-                <Route path='/waiter/addorder'  element={
+                <Route path='/waiter/addorder/:id'  element={
                   <PrivateRoute role={"WAITER"}>
                     <AddOrderWaiterPage/>
 
                   </PrivateRoute>
                   
                 }/>
+
+                <Route path='/waiter/editorder/actualizar/:id'  element={
+                  <PrivateRoute role={"WAITER"}>
+                    <EditOrderWaiter/>
+
+                  </PrivateRoute>
+                  
+                }/> 
 
             </Route>
         </Routes>
